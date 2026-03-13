@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KnowsGPS 改善策マトリックス</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif; background: #F7F7F5; padding: 24px 20px 32px; }
+.header { text-align: center; margin-bottom: 20px; }
+.header h1 { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+.header p { font-size: 11px; color: #999; margin-top: 4px; }
+.col-headers { display: grid; grid-template-columns: 48px 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+.col-hdr { text-align: center; padding: 8px 10px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+.hdr-tech  { background: #E6F1FB; color: #0C447C; }
+.hdr-knows { background: #EAF3DE; color: #27500A; }
+.grid-row { display: grid; grid-template-columns: 48px 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.row-lbl {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #aaa; text-align: center; line-height: 1.6;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+.cell {
+  background: #fff; border: 1px solid #e2e2dc; border-radius: 10px;
+  padding: 14px 14px 12px; cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.cell:hover { border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.cell.open-tech  { border-color: #378ADD; border-width: 2px; }
+.cell.open-knows { border-color: #639922; border-width: 2px; }
+.badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; margin-bottom: 10px; }
+.b-blue   { background: #E6F1FB; color: #185FA5; }
+.b-purple { background: #EEEDFE; color: #3C3489; }
+.b-green  { background: #EAF3DE; color: #3B6D11; }
+.b-amber  { background: #FAEEDA; color: #633806; }
+ul.items { list-style: none; }
+ul.items li { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; color: #555; line-height: 1.55; padding: 5px 0; border-bottom: 1px solid #f0efe8; }
+ul.items li:last-child { border-bottom: none; }
+.tag { flex-shrink: 0; margin-top: 2px; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.t-max  { background: #FCEBEB; color: #A32D2D; }
+.t-hi   { background: #FAEEDA; color: #854F0B; }
+.t-mid  { background: #EAF3DE; color: #3B6D11; }
+.t-long { background: #EEEDFE; color: #3C3489; }
+.detail { display: none; margin-top: 10px; background: #F7F7F5; border-radius: 8px; padding: 14px; border: 1px solid #e2e2dc; }
+.detail.show { display: block; }
+.detail-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.detail-head h3 { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+.close-btn { font-size: 12px; color: #bbb; cursor: pointer; padding: 2px 8px; }
+.close-btn:hover { color: #333; }
+.detail-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.dl { font-size: 10px; font-weight: 700; color: #aaa; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+ul.dlist { list-style: none; }
+ul.dlist li { font-size: 12px; color: #333; line-height: 1.55; padding: 5px 0; border-bottom: 1px solid #e8e8e0; }
+ul.dlist li:last-child { border-bottom: none; }
+.legend { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; padding: 8px 14px; background: #fff; border-radius: 8px; border: 1px solid #e2e2dc; }
+.legend-label { font-size: 11px; color: #aaa; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>改善策 2×2 マトリックス｜KnowsGPS インタビュー（12校）</h1>
+  <p>各セルをクリックすると詳細が展開されます</p>
+</div>
+
+<div class="col-headers">
+  <div></div>
+  <div class="col-hdr hdr-tech">🔧 テクタイト領域（開発対応）</div>
+  <div class="col-hdr hdr-knows">📣 Knows 単独対応</div>
+</div>
+
+<div class="grid-row">
+  <div class="row-lbl">機能・ソフト</div>
+  <div class="cell" id="c1" onclick="toggle('c1','d1','tech')">
+    <span class="badge b-blue">ソフト・データ機能</span>
+    <ul class="items">
+      <li><span class="tag t-max">最高</span>統合指標の開発（疲労/強度スコア）</li>
+      <li><span class="tag t-max">最高</span>比較機能の強化（前回比・基準値・他校）</li>
+      <li><span class="tag t-max">最高</span>AI・インテリジェントFB機能</li>
+      <li><span class="tag t-hi">高</span>アップロード即日化</li>
+      <li><span class="tag t-mid">中</span>映像×GPS連携（アライアンス）</li>
+    </ul>
+    <div class="detail" id="d1">
+      <div class="detail-head">
+        <h3>ソフト・データ機能 — 詳細</h3>
+        <span class="close-btn" onclick="event.stopPropagation();closeDetail('c1','d1','tech')">✕ 閉じる</span>
+      </div>
+      <div class="detail-cols">
+        <div>
+          <div class="dl">改善点</div>
+          <ul class="dlist">
+            <li>①統合指標なし → 疲労・強度スコアで今日の負荷を一言表示</li>
+            <li>②比較機能なし → 前回比/基準値/他校/個人長期トレンド</li>
+            <li>③多くの指標未使用 → AIが自動解釈・翻訳</li>
+            <li>⑭AI需要 → 狙い入力→達成度判定＋メニュー提案</li>
+            <li>⑰遅延 → 即日配信 or リアルタイム化</li>
+          </ul>
+        </div>
+        <div>
+          <div class="dl">関連校</div>
+          <ul class="dlist">
+            <li>統合指標：12校中8校以上が要望</li>
+            <li>AI機能：KR・UA・KD・TD・TG校</li>
+            <li>アップロード遅延：UA校</li>
+            <li>映像連携：NS・TY校（Beoカメラ連携打診）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell" id="c2" onclick="toggle('c2','d2','knows')">
+    <span class="badge b-green">営業アクション</span>
+    <ul class="items">
+      <li><span class="tag t-hi">高</span>熱中症・安全インフラとして学校予算を狙う</li>
+      <li><span class="tag t-hi">高</span>台数別ロードマップ＋同規模校事例集</li>
+      <li><span class="tag t-hi">高</span>ICT/DX補助制度との連携資料作成</li>
+      <li><span class="tag t-long">長期</span>中古デバイス流通モデル</li>
+    </ul>
+    <div class="detail" id="d2">
+      <div class="detail-head">
+        <h3>営業アクション — 詳細</h3>
+        <span class="close-btn" onclick="event.stopPropagation();closeDetail('c2','d2','knows')">✕ 閉じる</span>
+      </div>
+      <div class="detail-cols">
+        <div>
+          <div class="dl">改善点</div>
+          <ul class="dlist">
+            <li>⑪a「台数少＝使えない」誤解が複数校に存在</li>
+            <li>⑪b 公立校の担当者転勤による継続断絶リスク</li>
+            <li>⑪c ICT/DX補助制度が「部活専用」で通りにくい</li>
+            <li>⑪d 同規模校の事例の方が参考になる</li>
+          </ul>
+        </div>
+        <div>
+          <div class="dl">関連校</div>
+          <ul class="dlist">
+            <li>熱中症訴求：TD校で有効性確認</li>
+            <li>台数別ロードマップ：TD校で明示的要望</li>
+            <li>補助制度：NM校でSSH/DX申請を試みるも壁</li>
+            <li>TY校はDX推進校・副理事長が積極的</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="row-lbl">運用・現場</div>
+  <div class="cell" id="c3" onclick="toggle('c3','d3','tech')">
+    <span class="badge b-purple">アプリ・UI改善</span>
+    <ul class="items">
+      <li><span class="tag t-hi">高</span>スマホ対応・片手操作UI</li>
+      <li><span class="tag t-hi">高</span>デバイス差込→選手自動切替</li>
+      <li><span class="tag t-mid">中</span>選手・マネージャーへの権限移譲</li>
+    </ul>
+    <div class="detail" id="d3">
+      <div class="detail-head">
+        <h3>アプリ・UI改善 — 詳細</h3>
+        <span class="close-btn" onclick="event.stopPropagation();closeDetail('c3','d3','tech')">✕ 閉じる</span>
+      </div>
+      <div class="detail-cols">
+        <div>
+          <div class="dl">改善点</div>
+          <ul class="dlist">
+            <li>⑧ iPadを持ちながら練習できない（片手操作不可）</li>
+            <li>⑨ 運用負荷が特定スタッフ一人に属人化</li>
+            <li>⑩ 選手・マネージャーがデータにアクセスできない</li>
+            <li>⑫ 心拍計測不良が頻発（装着方法未周知）</li>
+            <li>⑬ デバイス故障・同期不具合が複数校で発生</li>
+          </ul>
+        </div>
+        <div>
+          <div class="dl">関連校</div>
+          <ul class="dlist">
+            <li>片手操作：TD・NS校で言及</li>
+            <li>自動切替：MN校（30台規模）で特に負担</li>
+            <li>権限移譲：UA・KD校から要望</li>
+            <li>心拍不良：KR・NS校で計測ミス多発</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell" id="c4" onclick="toggle('c4','d4','knows')">
+    <span class="badge b-amber">資料・コンテンツ提供</span>
+    <ul class="items">
+      <li><span class="tag t-max">最高</span>SSG・場面別活用ガイドの整備</li>
+      <li><span class="tag t-hi">高</span>操作マニュアル（機能別ガイド）</li>
+      <li><span class="tag t-hi">高</span>怪我復帰プロトコルの整備</li>
+      <li><span class="tag t-mid">中</span>負荷上限エビデンスの発信</li>
+    </ul>
+    <div class="detail" id="d4">
+      <div class="detail-head">
+        <h3>資料・コンテンツ提供 — 詳細</h3>
+        <span class="close-btn" onclick="event.stopPropagation();closeDetail('c4','d4','knows')">✕ 閉じる</span>
+      </div>
+      <div class="detail-cols">
+        <div>
+          <div class="dl">改善点</div>
+          <ul class="dlist">
+            <li>⑦ 操作マニュアル不十分・便利機能が知られていない</li>
+            <li>④ 練習でGPSを使う文化がない（試合のみ半数以上）</li>
+            <li>⑤ SSG計測の目安基準値がない</li>
+            <li>⑥ 怪我復帰の判断基準がない（ほぼ全校未活用）</li>
+            <li>⑯ 負荷上限エビデンスの発信不足</li>
+          </ul>
+        </div>
+        <div>
+          <div class="dl">関連校</div>
+          <ul class="dlist">
+            <li>SSGガイド：6校以上が明示的に言及</li>
+            <li>マニュアル：TG・KD校で機能別ガイド要望</li>
+            <li>怪我復帰：TG校がリハビリ装着の好事例</li>
+            <li>負荷エビデンス：TY・TG校から強い要望</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-label">優先度：</span>
+  <span class="tag t-max">最高</span>
+  <span class="tag t-hi">高</span>
+  <span class="tag t-mid">中</span>
+  <span class="tag t-long">長期</span>
+</div>
+
+<script>
+function toggle(cellId, panelId, type) {
+  var panel = document.getElementById(panelId);
+  var cell = document.getElementById(cellId);
+  var isOpen = panel.classList.contains('show');
+  document.querySelectorAll('.detail').forEach(function(p){ p.classList.remove('show'); });
+  document.querySelectorAll('.cell').forEach(function(c){ c.classList.remove('open-tech','open-knows'); });
+  if (!isOpen) {
+    panel.classList.add('show');
+    cell.classList.add('open-' + type);
+  }
+}
+function closeDetail(cellId, panelId, type) {
+  document.getElementById(panelId).classList.remove('show');
+  document.getElementById(cellId).classList.remove('open-' + type);
+}
+</script>
+</body>
+</html>
